@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">MoneySaver</string>
+    <string name="drawer_open">Menu opened</string>
+    <string name="drawer_close">Menu closed</string>
+    <string name="action_settings">Settings</string>
+    <string name="overview">Overview</string>
+    <string name="income">Income</string>
+    <string name="balance">Balance</string>
+    <string name="category">Category</string>
+    <string name="report">Report</string>
+    <string name="limit">Limit</string>
+    <string name="balance_name">Balance Name</string>
+    <string name="new_account_balance">New Account Balance</string>
+    <string name="edit_account_balance">Edit Account Balance</string>
+    <string name="OK">OK</string>
+    <string name="Cancel">Cancel</string>
+    <string name="spn_category_title">Account Balance Type</string>
+    <string name="cash">Cash</string>
+    <string name="balance_amount">Balance Amount</string>
+</resources>
