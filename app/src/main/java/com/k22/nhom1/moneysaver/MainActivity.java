@@ -1,21 +1,30 @@
 package com.k22.nhom1.moneysaver;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 
+import com.k22.nhom1.moneysaver.database.DB4OProvider;
 import com.k22.nhom1.moneysaver.fragment.BalanceFragment;
 import com.k22.nhom1.moneysaver.fragment.CategoryFragment;
 import com.k22.nhom1.moneysaver.fragment.HomeFragment;
 import com.k22.nhom1.moneysaver.fragment.LimitFragment;
 import com.k22.nhom1.moneysaver.fragment.NavigationDrawerFragment;
 import com.k22.nhom1.moneysaver.fragment.ReportFragment;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class MainActivity extends AppCompatActivity
@@ -26,12 +35,35 @@ public class MainActivity extends AppCompatActivity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Toolbar mToolbar;
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String IS_LOGGED = "islogged";
+    public static final String USER_NAME = "userName";
+    public static final String EMAIL = "email";
 
+    SharedPreferences sharedpreferences;
+    DB4OProvider db;
+    Context mContext;
+    RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        mContext = getApplicationContext();
+        relativeLayout = (RelativeLayout) findViewById(R.id.realativeLayout);
+        try {
+            db = new OpenDBTask(mContext).execute(null, null, null).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        if (!isLogged()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(mToolbar);
 
@@ -41,7 +73,9 @@ public class MainActivity extends AppCompatActivity
         // Set up the drawer.
         mNavigationDrawerFragment.setup(R.id.fragment_drawer, (DrawerLayout) findViewById(R.id.drawer), mToolbar);
         // populate the navigation drawer
-        mNavigationDrawerFragment.setUserData("John Doe", "johndoe@doe.com", BitmapFactory.decodeResource(getResources(), R.drawable.avatar));
+        String name = sharedpreferences.getString(USER_NAME, "Thanh");
+        String email = sharedpreferences.getString(EMAIL, "thanhm2515029@gstudent.ctu.edu.vn");
+        mNavigationDrawerFragment.setUserData(name, email, BitmapFactory.decodeResource(getResources(), R.drawable.avatar));
 
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -49,6 +83,19 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.container, fragment);
             transaction.commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String name = sharedpreferences.getString(USER_NAME, "Thanh");
+        String email = sharedpreferences.getString(EMAIL, "thanhm2515029@gstudent.ctu.edu.vn");
+        mNavigationDrawerFragment.setUserData(name, email, BitmapFactory.decodeResource(getResources(), R.drawable.avatar));
+    }
+
+    private boolean isLogged() {
+        String islogged = sharedpreferences.getString(IS_LOGGED, "");
+        return !TextUtils.isEmpty(islogged);
     }
 
 
@@ -93,7 +140,14 @@ public class MainActivity extends AppCompatActivity
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment, LimitFragment.TAG).commit();
                 break;
-            case 5: //about
+            case 5: //logout
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString(USER_NAME, "");
+                editor.putString(EMAIL, "");
+                editor.putString(IS_LOGGED, "");
+                editor.commit();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -137,4 +191,15 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public class OpenDBTask extends AsyncTask<Void, Void, DB4OProvider> {
+        public OpenDBTask(Context mContext) {
+        }
+
+        @Override
+        protected DB4OProvider doInBackground(Void... voids) {
+            DB4OProvider db = DB4OProvider.getInstance(mContext);
+            db.db();
+            return db;
+        }
+    }
 }

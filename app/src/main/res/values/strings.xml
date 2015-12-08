@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MoneySaver</string>
+    <string name="app_name">Money Saver</string>
     <string name="drawer_open">Menu opened</string>
     <string name="drawer_close">Menu closed</string>
     <string name="action_settings">Settings</string>
@@ -16,5 +16,9 @@
     <string name="Cancel">Cancel</string>
     <string name="spn_category_title">Account Balance Type</string>
     <string name="cash">Cash</string>
-    <string name="balance_amount">Balance Amount</string>
+    <string name="balance_amount">Initial Balance Amount</string>
+    <string name="password_error">between 4 and 10 alphanumeric characters</string>
+    <string name="email_error">enter a valid email address</string>
+    <string name="name_error">at least 3 characters</string>
+    <string name="creating_account">Creating Account...</string>
 </resources>
