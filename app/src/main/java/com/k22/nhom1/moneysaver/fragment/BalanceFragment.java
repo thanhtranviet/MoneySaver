@@ -4,13 +4,13 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.k22.nhom1.moneysaver.R;
 import com.k22.nhom1.moneysaver.adapter.BaseListAdapter;
@@ -30,10 +30,12 @@ import java.util.concurrent.ExecutionException;
  */
 public class BalanceFragment extends ListFragment implements View.OnClickListener {
     public static final String TAG = "BALANCE_FRAGMENT_TAG";
-    private List balanceItemList;
-    private BaseListAdapter mAdapter;
-    private ListView mListView;
-    private FloatingActionButton fabAddBalance;
+    List balanceItemList;
+    BaseListAdapter mAdapter;
+    ListView mListView;
+    FloatingActionButton fabAddBalance;
+    NumberFormat formatter;
+    View rootView;
     DB4OProvider db;
     Context mContext;
 
@@ -58,10 +60,10 @@ public class BalanceFragment extends ListFragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_balance, container, false);
+        rootView = inflater.inflate(R.layout.fragment_balance, container, false);
         balanceItemList = new ArrayList();
         List<TaiKhoan> taiKhoans = db.findAllTaiKhoan();
-        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+        formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         for (TaiKhoan tk : taiKhoans) {
             balanceItemList.add(new BaseListItem(tk.getTenTaiKhoan(), formatter.format(tk.getSoDuHienTai())));
         }
@@ -104,8 +106,14 @@ public class BalanceFragment extends ListFragment implements View.OnClickListene
         editNameDialog.show(fm, EditBalanceDialog.TAG);
     }
 
-    public void onFinishAddBalance(String inputText) {
-        Toast.makeText(getActivity(), "Hi, " + inputText, Toast.LENGTH_SHORT).show();
+    public void onFinishAddBalance(TaiKhoan tk) {
+        db.store(tk);
+        balanceItemList.add(new BaseListItem(tk.getTenTaiKhoan(), formatter.format(tk.getSoDuHienTai())));
+        Snackbar snackbar = Snackbar
+                .make(getActivity().findViewById(R.id.relativeLayout), tk.getTenTaiKhoan() + " added!", Snackbar.LENGTH_SHORT);
+
+        snackbar.show();
+        //Toast.makeText(getActivity(), "Hi, " + inputText, Toast.LENGTH_SHORT).show();
     }
 
     public class OpenDBTask extends AsyncTask<Void, Void, DB4OProvider> {

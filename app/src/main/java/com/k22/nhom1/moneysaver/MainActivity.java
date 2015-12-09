@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mContext = getApplicationContext();
-        relativeLayout = (RelativeLayout) findViewById(R.id.realativeLayout);
+        relativeLayout = (RelativeLayout) findViewById(R.id.relativeLayout);
         try {
             db = new OpenDBTask(mContext).execute(null, null, null).get();
         } catch (InterruptedException e) {

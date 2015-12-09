@@ -19,6 +19,9 @@ public class TaiKhoan {
     public TaiKhoan() {
     }
 
+    public TaiKhoan(String tenTaiKhoan) {
+        this.tenTaiKhoan = tenTaiKhoan;
+    }
     public TaiKhoan(String tenTaiKhoan, String loaiTaiKhoan, Integer soKhoiTao) {
         this.tenTaiKhoan = tenTaiKhoan;
         this.loaiTaiKhoan = loaiTaiKhoan;

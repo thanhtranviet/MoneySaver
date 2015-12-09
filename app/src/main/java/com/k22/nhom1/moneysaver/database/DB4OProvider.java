@@ -270,5 +270,18 @@ public class DB4OProvider extends Db4oHelper {
             db().store(tk);
         }
     }
+
+    public TaiKhoan getTaiKhoan(String mBalanceName) {
+        TaiKhoan tk = new TaiKhoan(mBalanceName);
+        ObjectSet<TaiKhoan> query = db().queryByExample(tk);
+        if (query.hasNext()) {
+            return query.next();
+        }
+        return null;
+    }
+
+    public void store(TaiKhoan taiKhoan) {
+        db().store(taiKhoan);
+    }
 }
 
