@@ -3,6 +3,7 @@ package com.k22.nhom1.moneysaver.dialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 
 import com.k22.nhom1.moneysaver.R;
 import com.k22.nhom1.moneysaver.component.LabelledSpinner;
+import com.k22.nhom1.moneysaver.database.domain.LoaiTaiKhoan;
 import com.k22.nhom1.moneysaver.fragment.BalanceFragment;
 
 import java.util.ArrayList;
@@ -40,15 +42,17 @@ public class EditBalanceDialog extends DialogFragment {
             title = getActivity().getString(R.string.edit_account_balance);//"Edit Account Balance";
             mEditText = (EditText) view.findViewById(R.id.txt_balance_name);
             mEditText.setText(mBalanceName);
+            TextInputLayout txtBalanceAmount = (TextInputLayout) view.findViewById(R.id.layout_txt_balance_amount);
+            txtBalanceAmount.setVisibility(View.INVISIBLE);
         }
         // Spinner element
         LabelledSpinner spn_category = (LabelledSpinner) view.findViewById(R.id.spn_category);
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
-        categories.add(getActivity().getString(R.string.cash));
-        categories.add("Bank Account");
-        categories.add("ATM");
-        categories.add("Other");
+        categories.add(LoaiTaiKhoan.ATM);
+        categories.add(LoaiTaiKhoan.BANK);
+        categories.add(LoaiTaiKhoan.CASH);
+        categories.add(LoaiTaiKhoan.OTHER);
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, categories);
