@@ -22,4 +22,19 @@
     <string name="name_error">at least 3 characters</string>
     <string name="creating_account">Creating Account...</string>
     <string name="bank_account">Bank Account</string>
+    <string name="limit_amount">Limit Amount</string>
+    <string name="limit_name">Expense Category</string>
+    <string name="new_limit_balance">New expense limit</string>
+    <string name="edit_limit_balance">Edit expense limit</string>
+    <string name="spn_limit_title">Expense Category</string>
+    <string name="new_category_income">New Income Category</string>
+    <string name="edit_category_income">Edit Income Category</string>
+    <string name="edit_category_expense">Edit Expense Category</string>
+    <string name="new_category_expense">New Expense Category</string>
+    <string name="new_category_income_recurring">New Recurring Income Category</string>
+    <string name="edit_category_income_recurring">Edit Recurring Income Category</string>
+    <string name="new_category_expense_recurring">New Recurring Expense Category</string>
+    <string name="edit_category_expense_recurring">Edit Recurring Expense Category</string>
+    <string name="select_date">Select Date</string>
+    <string name="spn_recurring_title">Recurring Duration</string>
 </resources>

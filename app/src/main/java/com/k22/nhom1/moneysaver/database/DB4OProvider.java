@@ -7,6 +7,7 @@ package com.k22.nhom1.moneysaver.database;
 import android.content.Context;
 
 import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
 import com.k22.nhom1.moneysaver.database.domain.HangMucChi;
 import com.k22.nhom1.moneysaver.database.domain.HangMucChiDinhKy;
 import com.k22.nhom1.moneysaver.database.domain.HangMucThu;
@@ -213,24 +214,16 @@ public class DB4OProvider extends Db4oHelper {
         db().store(nguoiDung);
     }
 
-    //This method is used to delete the object into the database.
     public void delete(NguoiDung nguoiDung) {
         db().delete(nguoiDung);
     }
 
-    //This method is used to retrive all object from database.
     public List<NguoiDung> findAllNguoiDung() {
-        return db().query(NguoiDung.class);
+        return db().queryByExample(NguoiDung.class);
     }
 
-    //This method is used to retrive all object from database.
     public List<TaiKhoan> findAllTaiKhoan() {
-        return db().query(TaiKhoan.class);
-    }
-
-    //This method is used to retrive matched object from database.
-    public List<NguoiDung> getRecord(NguoiDung s) {
-        return db().queryByExample(s);
+        return db().queryByExample(TaiKhoan.class);
     }
 
     public void store(KhoanVay khoanVay) {
@@ -282,6 +275,102 @@ public class DB4OProvider extends Db4oHelper {
 
     public void store(TaiKhoan taiKhoan) {
         db().store(taiKhoan);
+    }
+
+    public HangMucChi getHangMucChi(String mHangMucChiName) {
+        HangMucChi tk = new HangMucChi(mHangMucChiName);
+        ObjectSet<HangMucChi> query = db().queryByExample(tk);
+        if (query.hasNext()) {
+            return query.next();
+        }
+        return null;
+    }
+
+    public void store(HangMucChi hm) {
+        db().store(hm);
+    }
+
+    public void store(HangMucChiDinhKy hm) {
+        db().store(hm);
+    }
+
+    public List<HangMucChi> findAllHangMucChi(Boolean hasDinhMuc) {
+        if (!hasDinhMuc) {
+            return db().query(new Predicate<HangMucChi>() {
+                public boolean match(HangMucChi item) {
+                    return item.getDinhMucChi() == 0;
+                }
+            });
+        } else {
+            return db().query(new Predicate<HangMucChi>() {
+                public boolean match(HangMucChi item) {
+                    return item.getDinhMucChi() > 0;
+                }
+            });
+        }
+    }
+
+    public List<HangMucThu> findAllHangMucThu() {
+        return db().query(new Predicate<HangMucThu>() {
+            public boolean match(HangMucThu candidate) {
+                return !(candidate instanceof HangMucThuDinhKy);
+            }
+        });
+    }
+
+    public List<HangMucThuDinhKy> findAllHangMucThuDinhKy() {
+        return db().queryByExample(HangMucThuDinhKy.class);
+    }
+
+    public List<HangMucChi> findAllHangMucChi() {
+        return db().query(new Predicate<HangMucChi>() {
+            public boolean match(HangMucChi candidate) {
+                return !(candidate instanceof HangMucChiDinhKy);
+            }
+        });
+    }
+
+    public List<HangMucChiDinhKy> findAllHangMucChiDinhKy() {
+        return db().queryByExample(HangMucChiDinhKy.class);
+    }
+
+    public List<NguoiDung> getRecord(NguoiDung s) {
+        return db().queryByExample(s);
+    }
+
+    public HangMucThu getHangMucThu(String categoryName) {
+        HangMucThu tk = new HangMucThu(categoryName);
+        ObjectSet<HangMucThu> query = db().queryByExample(tk);
+        if (query.hasNext()) {
+            return query.next();
+        }
+        return null;
+    }
+
+    public void store(HangMucThu hm) {
+        db().store(hm);
+    }
+
+    public void store(HangMucThuDinhKy hm) {
+        db().store(hm);
+    }
+
+    public HangMucChiDinhKy getHangMucChiDinhKy(String categoryName) {
+        HangMucChiDinhKy tk = new HangMucChiDinhKy(categoryName);
+        ObjectSet<HangMucChiDinhKy> query = db().queryByExample(tk);
+        if (query.hasNext()) {
+            return query.next();
+        }
+        return null;
+    }
+
+    public HangMucThuDinhKy getHangMucThuDinhKy(String categoryName) {
+        HangMucThuDinhKy tk = new HangMucThuDinhKy(categoryName);
+        ObjectSet<HangMucThuDinhKy> query = db().queryByExample(tk);
+        if (query.hasNext()) {
+            return query.next();
+        }
+        return null;
     }
 }
 

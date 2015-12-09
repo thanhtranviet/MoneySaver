@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/edit_balance"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <com.k22.nhom1.moneysaver.component.LabelledSpinner
+        android:id="@+id/spn_limit"
+        custom:labelText="@string/spn_limit_title"
+        custom:widgetColor="@color/colorAccent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/spn_limit_title" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/layout_txt_limit_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/txt_limit_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/limit_amount"
+            android:imeOptions="actionDone"
+            android:inputType="number" />
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>

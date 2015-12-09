@@ -10,7 +10,18 @@ public class HangMucChi extends HangMuc {
     Integer dinhMucChi;
     Set<KhoanChi> cacKhoanChi;
 
+    public HangMucChi() {
+        super();
+    }
+
+    public HangMucChi(String tenHangMuc) {
+        super(tenHangMuc);
+    }
+
     public Integer getDinhMucChi() {
+        if (dinhMucChi == null) {
+            return 0;
+        }
         return dinhMucChi;
     }
 

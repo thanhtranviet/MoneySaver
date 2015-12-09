@@ -191,6 +191,13 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onDestroy() {
+        if (db != null) {
+            db.close();
+        }
+        super.onDestroy();
+    }
     public class OpenDBTask extends AsyncTask<Void, Void, DB4OProvider> {
         public OpenDBTask(Context mContext) {
         }

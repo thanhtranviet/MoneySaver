@@ -13,6 +13,14 @@ public class HangMucThu extends HangMuc {
         return cacKhoanThu;
     }
 
+    public HangMucThu() {
+        super();
+    }
+
+    public HangMucThu(String tenHangMuc) {
+        super(tenHangMuc);
+    }
+
     public void setCacKhoanThu(Set<KhoanThu> cacKhoanThu) {
         this.cacKhoanThu = cacKhoanThu;
     }

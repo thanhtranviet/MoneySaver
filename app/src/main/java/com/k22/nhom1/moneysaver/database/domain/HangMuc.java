@@ -7,6 +7,14 @@ public class HangMuc {
     String tenHangMuc;
     String moTa;
 
+    public HangMuc() {
+
+    }
+
+    public HangMuc(String tenHangMuc) {
+        this.tenHangMuc = tenHangMuc;
+    }
+
     public String getTenHangMuc() {
         return tenHangMuc;
     }

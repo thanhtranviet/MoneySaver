@@ -30,7 +30,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class BalanceFragment extends ListFragment implements View.OnClickListener {
     public static final String TAG = "BALANCE_FRAGMENT_TAG";
-    List balanceItemList;
+    List balanceItemList = new ArrayList();
     BaseListAdapter mAdapter;
     ListView mListView;
     FloatingActionButton fabAddBalance;
@@ -61,15 +61,8 @@ public class BalanceFragment extends ListFragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_balance, container, false);
-        balanceItemList = new ArrayList();
-        List<TaiKhoan> taiKhoans = db.findAllTaiKhoan();
         formatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        for (TaiKhoan tk : taiKhoans) {
-            balanceItemList.add(new BaseListItem(tk.getTenTaiKhoan(), formatter.format(tk.getSoDuHienTai())));
-        }
-        //balanceItemList.add(new BaseListItem("ATM ACB", "1.000.000 VND"));
-        //balanceItemList.add(new BaseListItem("ATM BIDV", "2.500.000 VND"));
-        //balanceItemList.add(new BaseListItem("Vi ca nhan", "450.000 VND"));
+        loadBalanceList();
         mAdapter = new BaseListAdapter(getActivity(), balanceItemList);
         mListView = (ListView) rootView.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapter);
@@ -77,6 +70,16 @@ public class BalanceFragment extends ListFragment implements View.OnClickListene
         fabAddBalance = (FloatingActionButton) rootView.findViewById(R.id.fabAddBalance);
         fabAddBalance.setOnClickListener(this);
         return rootView;
+    }
+
+    private List loadBalanceList() {
+        balanceItemList.clear();
+        List<TaiKhoan> taiKhoans = db.findAllTaiKhoan();
+
+        for (TaiKhoan tk : taiKhoans) {
+            balanceItemList.add(new BaseListItem(tk.getTenTaiKhoan(), formatter.format(tk.getSoDuHienTai())));
+        }
+        return balanceItemList;
     }
 
     @Override
@@ -108,7 +111,8 @@ public class BalanceFragment extends ListFragment implements View.OnClickListene
 
     public void onFinishAddBalance(TaiKhoan tk) {
         db.store(tk);
-        balanceItemList.add(new BaseListItem(tk.getTenTaiKhoan(), formatter.format(tk.getSoDuHienTai())));
+        loadBalanceList();
+        mAdapter.notifyDataSetChanged();
         Snackbar snackbar = Snackbar
                 .make(getActivity().findViewById(R.id.relativeLayout), tk.getTenTaiKhoan() + " added!", Snackbar.LENGTH_SHORT);
 

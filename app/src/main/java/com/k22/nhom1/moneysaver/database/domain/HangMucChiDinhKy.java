@@ -14,6 +14,14 @@ public class HangMucChiDinhKy extends HangMucChi {
     Integer soTien;
     Set<KhoanChi> cacKhoanChi;
 
+    public HangMucChiDinhKy() {
+        super();
+    }
+
+    public HangMucChiDinhKy(String tenHangMuc) {
+        super(tenHangMuc);
+    }
+
     public Date getNgayBatDau() {
         return ngayBatDau;
     }

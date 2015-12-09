@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/home/thanh/.gradle/caches/modules-2/files-2.1/com.github.PhilJay/MPAndroidChart/v2.1.6/b036abbb61656165da99cf44898e4b9123687e65/MPAndroidChart-v2.1.6.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="b036abbb61656165da99cf44898e4b9123687e65">
+        <dex dex="/home/thanh/AndroidStudioProjects/MoneySaver/app/build/intermediates/pre-dexed/debug/MPAndroidChart-v2.1.6_912297038721965ccae80cfd60d8135ca86d39d4.jar" />
+    </item>
+
+</items>
