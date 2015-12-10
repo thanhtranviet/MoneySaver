@@ -48,8 +48,11 @@ public class HomeFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new OverviewTabFragment(), "All");
-        adapter.addFragment(new IncomeTabFragment(), "Income");
+        adapter.addFragment(new OverviewTabFragment(), getActivity().getString(R.string.all));
+        adapter.addFragment(new IncomeTabFragment(), getActivity().getString(R.string.income));
+        adapter.addFragment(new ExpenseTabFragment(), getActivity().getString(R.string.expense));
+        adapter.addFragment(new BorrowTabFragment(), getActivity().getString(R.string.borrow));
+        adapter.addFragment(new LoanTabFragment(), getActivity().getString(R.string.loan));
         viewPager.setAdapter(adapter);
     }
 }

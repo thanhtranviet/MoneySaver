@@ -394,7 +394,6 @@ public class DB4OProvider extends Db4oHelper {
     public void deleteKhoanVay(KhoanVay gd) {
         gd.getTaiKhoan().deleteKhoanVay(gd);
         db().delete(gd);
-        //db().commit();
     }
 
     public void deleteKhoanChoVay(KhoanChoVay gd) {
@@ -462,6 +461,20 @@ public class DB4OProvider extends Db4oHelper {
     public void addKhoanChoVay(KhoanChoVay giaodich) {
         giaodich.getTaiKhoan().addKhoanChoVay(giaodich);
         db().store(giaodich);
+    }
+
+    public List<KhoanChi> findAllKhoanChi() {
+        return db().query(KhoanChi.class);
+    }
+
+    public List<KhoanVay> findAllKhoanVay() {
+
+        return db().query(KhoanVay.class);
+    }
+
+    public List<KhoanChoVay> findAllKhoanChoVay() {
+
+        return db().query(KhoanChoVay.class);
     }
 }
 

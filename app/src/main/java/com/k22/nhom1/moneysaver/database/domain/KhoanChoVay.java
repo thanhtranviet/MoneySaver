@@ -11,6 +11,7 @@ public class KhoanChoVay extends GiaoDich {
     String nguoiVay;
     String trangThai;
     TaiKhoan taiKhoan;
+    HangMucChi hangMucChi;
 
     public KhoanChoVay() {
         super();
@@ -57,5 +58,13 @@ public class KhoanChoVay extends GiaoDich {
 
     public void setTaiKhoan(TaiKhoan taiKhoan) {
         this.taiKhoan = taiKhoan;
+    }
+
+    public HangMucChi getHangMucChi() {
+        return hangMucChi;
+    }
+
+    public void setHangMucChi(HangMucChi hangMucChi) {
+        this.hangMucChi = hangMucChi;
     }
 }

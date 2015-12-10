@@ -46,4 +46,15 @@
     <string name="spn_transaction_category_title">Transaction category</string>
     <string name="transaction_date">Transaction date</string>
     <string name="new_transaction_income">New income transaction</string>
+    <string name="all">All</string>
+    <string name="loan">Loan</string>
+    <string name="borrow">Borrow</string>
+    <string name="expense">Expense</string>
+    <string name="edit_transaction_borrow">Edit borrow transaction</string>
+    <string name="new_transaction_borrow">New borrow transaction</string>
+    <string name="edit_transaction_expense">Edit expense transaction</string>
+    <string name="new_transaction_expense">New expense transaction</string>
+    <string name="edit_transaction_loan">Edit loan transaction</string>
+    <string name="new_transaction_loan">New loan transaction</string>
+    <string name="partner">Partner</string>
 </resources>

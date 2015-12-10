@@ -28,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -35,7 +36,7 @@ import java.util.concurrent.ExecutionException;
  * Created by thanh on 10/12/2015.
  */
 public class EditKhoanThuDialog extends DialogFragment {
-    public static final String TAG = "EDIT_BALANCE_FRAGMENT_TAG";
+    public static final String TAG = "EDIT_INCOME_FRAGMENT_TAG";
 
     EditText txt_transaction_name;
     EditText txt_transaction_amount;
@@ -105,6 +106,8 @@ public class EditKhoanThuDialog extends DialogFragment {
             spn_transaction_balance.setSelection(balances.indexOf(giaodich.getTaiKhoan()));
 
             isEdit = true;
+        } else {
+            txt_transaction_date.setText(dateFormat.format(new Date()));
         }
         btnSelectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +123,7 @@ public class EditKhoanThuDialog extends DialogFragment {
             }
         });
 
-        b.setView(view).setTitle(title).setIcon(R.drawable.ic_account_balance_black_24dp);
+        b.setView(view).setTitle(title).setIcon(R.drawable.ic_credit_card_black_24dp);
         b.setPositiveButton(getActivity().getString(R.string.OK),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {

@@ -3,7 +3,6 @@ package com.k22.nhom1.moneysaver.adapter;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,15 @@ import android.widget.Toast;
 import com.k22.nhom1.moneysaver.R;
 import com.k22.nhom1.moneysaver.component.CustomSwipeLayout;
 import com.k22.nhom1.moneysaver.database.DB4OProvider;
-import com.k22.nhom1.moneysaver.database.domain.GiaoDich;
 import com.k22.nhom1.moneysaver.database.domain.KhoanChi;
 import com.k22.nhom1.moneysaver.database.domain.KhoanChoVay;
 import com.k22.nhom1.moneysaver.database.domain.KhoanThu;
 import com.k22.nhom1.moneysaver.database.domain.KhoanVay;
 import com.k22.nhom1.moneysaver.dialog.EditBalanceDialog;
+import com.k22.nhom1.moneysaver.dialog.EditKhoanChiDialog;
+import com.k22.nhom1.moneysaver.dialog.EditKhoanChoVayDialog;
 import com.k22.nhom1.moneysaver.dialog.EditKhoanThuDialog;
+import com.k22.nhom1.moneysaver.dialog.EditKhoanVayDialog;
 import com.k22.nhom1.moneysaver.model.TransactionItem;
 import com.malinskiy.superrecyclerview.swipe.BaseSwipeAdapter;
 import com.malinskiy.superrecyclerview.swipe.SwipeLayout;
@@ -35,16 +36,16 @@ public class TransactionAdapter extends BaseSwipeAdapter<TransactionAdapter.View
     private ArrayList<TransactionItem> mData;
     private DB4OProvider db;
     FragmentManager fm;
-    String transactionType;
+    //String transactionType;
     NumberFormat numberFormatter;
     SimpleDateFormat dateFormatter;
     Fragment caller;
 
-    public TransactionAdapter(ArrayList<TransactionItem> mData, DB4OProvider db, FragmentManager fm, String transactionType, Fragment caller) {
+    public TransactionAdapter(ArrayList<TransactionItem> mData, DB4OProvider db, FragmentManager fm, Fragment caller) {
         this.mData = mData;
         this.db = db;
         this.fm = fm;
-        this.transactionType = transactionType;
+        //this.transactionType = transactionType;
         this.caller = caller;
         numberFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
         dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -72,9 +73,18 @@ public class TransactionAdapter extends BaseSwipeAdapter<TransactionAdapter.View
         swipeLayout.setOnClickItemListener(new CustomSwipeLayout.OnClickItemListener() {
 
             public void onClick(View view) {
-                TransactionItem item = mData.get(viewHolder.getPosition());
-                if (!TextUtils.isEmpty(transactionType)) {
-                    EditKhoanThuDialog dialog = EditKhoanThuDialog.newInstance(item.getTenGiaoDich(), caller);
+                Object item = mData.get(viewHolder.getPosition()).getDbObject();
+                if (item instanceof KhoanThu) {
+                    EditKhoanThuDialog dialog = EditKhoanThuDialog.newInstance(((KhoanThu) item).getTenGiaoDich(), caller);
+                    dialog.show(fm, EditBalanceDialog.TAG);
+                } else if (item instanceof KhoanChi) {
+                    EditKhoanChiDialog dialog = EditKhoanChiDialog.newInstance(((KhoanChi) item).getTenGiaoDich(), caller);
+                    dialog.show(fm, EditBalanceDialog.TAG);
+                } else if (item instanceof KhoanVay) {
+                    EditKhoanVayDialog dialog = EditKhoanVayDialog.newInstance(((KhoanVay) item).getTenGiaoDich(), caller);
+                    dialog.show(fm, EditBalanceDialog.TAG);
+                } else if (item instanceof KhoanChoVay) {
+                    EditKhoanChoVayDialog dialog = EditKhoanChoVayDialog.newInstance(((KhoanChoVay) item).getTenGiaoDich(), caller);
                     dialog.show(fm, EditBalanceDialog.TAG);
                 }
 
@@ -140,6 +150,17 @@ public class TransactionAdapter extends BaseSwipeAdapter<TransactionAdapter.View
     }
 
     public void remove(int position) {
+        Object obj = mData.get(position).getDbObject();
+        if (obj instanceof KhoanChi) {
+            db.deleteKhoanChi((KhoanChi) obj);
+        } else if (obj instanceof KhoanThu) {
+            db.deleteKhoanThu((KhoanThu) obj);
+        } else if (obj instanceof KhoanVay) {
+            db.deleteKhoanVay((KhoanVay) obj);
+        } else if (obj instanceof KhoanChoVay) {
+            db.deleteKhoanChoVay((KhoanChoVay) obj);
+        }
+        /*
         TransactionItem item = mData.get(position);
         if (transactionType != null) {
             switch (transactionType) {
@@ -161,6 +182,10 @@ public class TransactionAdapter extends BaseSwipeAdapter<TransactionAdapter.View
             closeItem(position);
             notifyItemRemoved(position);
         }
+        */
+        mData.remove(position);
+        closeItem(position);
+        notifyItemRemoved(position);
     }
 
     public static class ViewHolder extends BaseSwipeAdapter.BaseSwipeableViewHolder {

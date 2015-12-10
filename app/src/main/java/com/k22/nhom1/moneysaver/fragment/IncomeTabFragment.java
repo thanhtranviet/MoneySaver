@@ -26,6 +26,8 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.malinskiy.superrecyclerview.swipe.SwipeItemManagerInterface;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -68,7 +70,7 @@ public class IncomeTabFragment extends Fragment implements SwipeRefreshLayout.On
         mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         ArrayList<TransactionItem> list = loadData();
-        mAdapter = new TransactionAdapter(list, db, getFragmentManager(), GiaoDich.KHOAN_THU, this);
+        mAdapter = new TransactionAdapter(list, db, getFragmentManager(), this);
         mRecycler.setAdapter(mAdapter);
         mAdapter.setMode(SwipeItemManagerInterface.Mode.Single);
         mHandler = new Handler(Looper.getMainLooper());
@@ -88,6 +90,15 @@ public class IncomeTabFragment extends Fragment implements SwipeRefreshLayout.On
         for (GiaoDich o : data) {
             result.add(new TransactionItem(o));
         }
+        Collections.sort(result, new Comparator<TransactionItem>() {
+            public int compare(TransactionItem o1, TransactionItem o2) {
+                if (o1.getNgayGiaoDich() == null || o2.getNgayGiaoDich() == null) {
+                    return 0;
+                }
+                return o1.getNgayGiaoDich().compareTo(o2.getNgayGiaoDich());
+            }
+        });
+        Collections.reverse(result);
         return result;
     }
 
