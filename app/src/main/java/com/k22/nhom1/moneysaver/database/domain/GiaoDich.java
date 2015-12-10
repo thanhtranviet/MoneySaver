@@ -6,10 +6,21 @@ import java.util.Date;
  * Created by thanh on 08/12/2015.
  */
 public class GiaoDich {
+    public static final String KHOAN_THU = "Income";
+    public static final String KHOAN_CHI = "Expense";
+    public static final String KHOAN_VAY = "Borrow";
+    public static final String KHOAN_CHOVAY = "Loan";
     String tenGiaoDich;
     Date ngayGiaoDich;
     Integer soTien;
     String ghiChu;
+
+    public GiaoDich() {
+    }
+
+    public GiaoDich(String name) {
+        this.tenGiaoDich = name;
+    }
 
     public String getTenGiaoDich() {
         return tenGiaoDich;

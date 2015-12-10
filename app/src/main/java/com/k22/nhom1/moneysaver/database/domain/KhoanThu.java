@@ -8,6 +8,12 @@ public class KhoanThu extends GiaoDich {
     HangMucThu hangMucThu;
     HangMucThuDinhKy hangMucThuDinhKy;
 
+    public KhoanThu() {
+    }
+
+    public KhoanThu(String name) {
+        super(name);
+    }
     public TaiKhoan getTaiKhoan() {
         return taiKhoan;
     }

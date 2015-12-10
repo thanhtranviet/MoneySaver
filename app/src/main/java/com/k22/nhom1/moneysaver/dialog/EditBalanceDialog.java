@@ -99,7 +99,6 @@ public class EditBalanceDialog extends DialogFragment {
                         taiKhoan.setLoaiTaiKhoan(spn_category.getSpinner().getSelectedItem().toString());
                         if (!isEdit) {
                             taiKhoan.setSoKhoiTao(Integer.parseInt(txt_balance_amount.getText().toString()));
-                            taiKhoan.setSoDuHienTai(taiKhoan.getSoKhoiTao());
                         }
                         ((BalanceFragment) getParentFragment()).onFinishAddBalance(taiKhoan);
                     }

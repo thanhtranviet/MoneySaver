@@ -10,6 +10,12 @@ import android.util.Log;
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.config.EmbeddedConfiguration;
+import com.db4o.constraints.UniqueFieldValueConstraint;
+import com.k22.nhom1.moneysaver.database.domain.GiaoDich;
+import com.k22.nhom1.moneysaver.database.domain.KhoanChi;
+import com.k22.nhom1.moneysaver.database.domain.KhoanChoVay;
+import com.k22.nhom1.moneysaver.database.domain.KhoanThu;
+import com.k22.nhom1.moneysaver.database.domain.KhoanVay;
 
 import java.io.IOException;
 
@@ -54,6 +60,21 @@ public class Db4oHelper {
         configuration.common().objectClass(NguoiDung.class)
                 .cascadeOnActivate(true);
         */
+        configuration.common().objectClass(GiaoDich.class).objectField("tenGiaoDich")
+                .indexed(true);
+        configuration.common().add(new UniqueFieldValueConstraint(GiaoDich.class, "tenGiaoDich"));
+        configuration.common().objectClass(KhoanThu.class).objectField("tenGiaoDich")
+                .indexed(true);
+        configuration.common().add(new UniqueFieldValueConstraint(KhoanThu.class, "tenGiaoDich"));
+        configuration.common().objectClass(KhoanChi.class).objectField("tenGiaoDich")
+                .indexed(true);
+        configuration.common().add(new UniqueFieldValueConstraint(KhoanChi.class, "tenGiaoDich"));
+        configuration.common().objectClass(KhoanVay.class).objectField("tenGiaoDich")
+                .indexed(true);
+        configuration.common().add(new UniqueFieldValueConstraint(KhoanVay.class, "tenGiaoDich"));
+        configuration.common().objectClass(KhoanChoVay.class).objectField("tenGiaoDich")
+                .indexed(true);
+        configuration.common().add(new UniqueFieldValueConstraint(KhoanChoVay.class, "tenGiaoDich"));
         return configuration;
     }
 

@@ -8,6 +8,13 @@ public class KhoanChi extends GiaoDich {
     HangMucChi hangMucChi;
     HangMucChiDinhKy hangMucChiDinhKy;
 
+    public KhoanChi() {
+        super();
+    }
+
+    public KhoanChi(String name) {
+        super(name);
+    }
     public TaiKhoan getTaiKhoan() {
         return taiKhoan;
     }

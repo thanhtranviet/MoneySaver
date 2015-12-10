@@ -48,8 +48,8 @@ public class HomeFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new OverviewTabFragment(), "ONE");
-        adapter.addFragment(new IncomeTabFragment(), "TWO");
+        adapter.addFragment(new OverviewTabFragment(), "All");
+        adapter.addFragment(new IncomeTabFragment(), "Income");
         viewPager.setAdapter(adapter);
     }
 }

@@ -8,6 +8,7 @@ import android.content.Context;
 
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
+import com.k22.nhom1.moneysaver.database.domain.GiaoDich;
 import com.k22.nhom1.moneysaver.database.domain.HangMucChi;
 import com.k22.nhom1.moneysaver.database.domain.HangMucChiDinhKy;
 import com.k22.nhom1.moneysaver.database.domain.HangMucThu;
@@ -124,7 +125,7 @@ public class DB4OProvider extends Db4oHelper {
         chiHousebill.setHangMucChiDinhKy(hangMucChiDinhKy);
         chiHousebill.setTaiKhoan(wallet);
         chiHousebill.setSoTien(hangMucChiDinhKy.getSoTien());
-        chiHousebill.setTenGiaoDich("Buy new T-Shirt");
+        chiHousebill.setTenGiaoDich("Pay monthly bill for December");
         try {
             chiHousebill.setNgayGiaoDich(formatter.parse("2/12/2015"));
         } catch (ParseException e) {
@@ -189,7 +190,7 @@ public class DB4OProvider extends Db4oHelper {
         khoanVay.setTrangThai(TrangThai.PENDING);
         khoanVay.setGhiChu("Many thank");
         khoanVay.setSoTien(2300000);
-        this.store(khoanVay);
+        //this.store(khoanVay);
 
 
         db().store(hangMucThuDinhKy);
@@ -207,6 +208,7 @@ public class DB4OProvider extends Db4oHelper {
         db().store(thuExtra);
         db().store(thuOvertime);
         db().store(thuSalary);
+        db().store(khoanVay);
     }
 
     //This method is used to store the object into the database.
@@ -371,6 +373,95 @@ public class DB4OProvider extends Db4oHelper {
             return query.next();
         }
         return null;
+    }
+
+    public List<GiaoDich> findAllGiaoDich() {
+        return db().query(GiaoDich.class);
+    }
+
+    public void deleteKhoanThu(KhoanThu gd) {
+        gd.getTaiKhoan().deleteKhoanThu(gd);
+        db().delete(gd);
+        //db().commit();
+    }
+
+    public void deleteKhoanChi(KhoanChi gd) {
+        gd.getTaiKhoan().deleteKhoanChi(gd);
+        db().delete(gd);
+        //db().commit();
+    }
+
+    public void deleteKhoanVay(KhoanVay gd) {
+        gd.getTaiKhoan().deleteKhoanVay(gd);
+        db().delete(gd);
+        //db().commit();
+    }
+
+    public void deleteKhoanChoVay(KhoanChoVay gd) {
+        gd.getTaiKhoan().deleteKhoanChoVay(gd);
+        db().delete(gd);
+        //db().commit();
+    }
+
+    public List<KhoanThu> findAllKhoanThu() {
+        return db().query(KhoanThu.class);
+    }
+
+    public KhoanThu getKhoanThu(String transactionName) {
+        KhoanThu o = new KhoanThu(transactionName);
+        ObjectSet<KhoanThu> query = db().queryByExample(o);
+        if (query.hasNext()) {
+            return query.next();
+        }
+        return null;
+    }
+
+    public KhoanChi getKhoanChi(String transactionName) {
+        KhoanChi o = new KhoanChi(transactionName);
+        ObjectSet<KhoanChi> query = db().queryByExample(o);
+        if (query.hasNext()) {
+            return query.next();
+        }
+        return null;
+    }
+
+    public KhoanVay getKhoanVay(String transactionName) {
+        KhoanVay o = new KhoanVay(transactionName);
+        ObjectSet<KhoanVay> query = db().queryByExample(o);
+        if (query.hasNext()) {
+            return query.next();
+        }
+        return null;
+    }
+
+    public KhoanChoVay getKhoanChoVay(String transactionName) {
+        KhoanChoVay o = new KhoanChoVay(transactionName);
+        ObjectSet<KhoanChoVay> query = db().queryByExample(o);
+        if (query.hasNext()) {
+            return query.next();
+        }
+        return null;
+    }
+
+    public void addKhoanThu(KhoanThu giaodich) {
+        giaodich.getTaiKhoan().addKhoanThu(giaodich);
+        db().store(giaodich);
+        db().commit();
+    }
+
+    public void addKhoanChi(KhoanChi giaodich) {
+        giaodich.getTaiKhoan().addKhoanChi(giaodich);
+        db().store(giaodich);
+    }
+
+    public void addKhoanVay(KhoanVay giaodich) {
+        giaodich.getTaiKhoan().addKhoanVay(giaodich);
+        db().store(giaodich);
+    }
+
+    public void addKhoanChoVay(KhoanChoVay giaodich) {
+        giaodich.getTaiKhoan().addKhoanChoVay(giaodich);
+        db().store(giaodich);
     }
 }
 

@@ -37,4 +37,13 @@
     <string name="edit_category_expense_recurring">Edit Recurring Expense Category</string>
     <string name="select_date">Select Date</string>
     <string name="spn_recurring_title">Recurring Duration</string>
+    <string name="delete_item">Delete Item?</string>
+    <string name="yes_delete">Yes,Delete</string>
+    <string name="note">Note</string>
+    <string name="edit_transaction_income">Edit income transaction</string>
+    <string name="transaction_name">Transaction name</string>
+    <string name="transaction_amount">Transaction amount</string>
+    <string name="spn_transaction_category_title">Transaction category</string>
+    <string name="transaction_date">Transaction date</string>
+    <string name="new_transaction_income">New income transaction</string>
 </resources>

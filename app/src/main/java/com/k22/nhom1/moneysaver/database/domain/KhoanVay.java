@@ -13,6 +13,13 @@ public class KhoanVay extends GiaoDich {
 
     TaiKhoan taiKhoan;
 
+    public KhoanVay() {
+        super();
+    }
+
+    public KhoanVay(String name) {
+        super(name);
+    }
     public Date getNgayDuKienTra() {
         return ngayDuKienTra;
     }

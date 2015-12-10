@@ -22,4 +22,7 @@
 
     <drawable name="pressed_gray">#0c000000</drawable>
     <drawable name="selected_gray">#2c000000</drawable>
+
+    <color name="backgroundColor">@color/background_material_light</color>
+    <color name="backgroundColorPress">@color/myPrimaryColor</color>
 </resources>
