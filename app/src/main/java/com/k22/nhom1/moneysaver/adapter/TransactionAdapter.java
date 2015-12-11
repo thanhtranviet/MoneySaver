@@ -62,31 +62,18 @@ public class TransactionAdapter extends BaseSwipeAdapter<TransactionAdapter.View
         swipeLayout.setDragEdge(SwipeLayout.DragEdge.Right);
         swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
 
-        /*
+
         swipeLayout.setOnDoubleClickListener(new SwipeLayout.DoubleClickListener() {
             @Override
             public void onDoubleClick(SwipeLayout layout, boolean surface) {
-                Toast.makeText(context, "DoubleClick", Toast.LENGTH_SHORT).show();
+                editTransactionItem(viewHolder);
             }
         });
-        */
+
         swipeLayout.setOnClickItemListener(new CustomSwipeLayout.OnClickItemListener() {
 
             public void onClick(View view) {
-                Object item = mData.get(viewHolder.getPosition()).getDbObject();
-                if (item instanceof KhoanThu) {
-                    EditKhoanThuDialog dialog = EditKhoanThuDialog.newInstance(((KhoanThu) item).getTenGiaoDich(), caller);
-                    dialog.show(fm, EditBalanceDialog.TAG);
-                } else if (item instanceof KhoanChi) {
-                    EditKhoanChiDialog dialog = EditKhoanChiDialog.newInstance(((KhoanChi) item).getTenGiaoDich(), caller);
-                    dialog.show(fm, EditBalanceDialog.TAG);
-                } else if (item instanceof KhoanVay) {
-                    EditKhoanVayDialog dialog = EditKhoanVayDialog.newInstance(((KhoanVay) item).getTenGiaoDich(), caller);
-                    dialog.show(fm, EditBalanceDialog.TAG);
-                } else if (item instanceof KhoanChoVay) {
-                    EditKhoanChoVayDialog dialog = EditKhoanChoVayDialog.newInstance(((KhoanChoVay) item).getTenGiaoDich(), caller);
-                    dialog.show(fm, EditBalanceDialog.TAG);
-                }
+                editTransactionItem(viewHolder);
 
             }
 
@@ -100,6 +87,23 @@ public class TransactionAdapter extends BaseSwipeAdapter<TransactionAdapter.View
             }
         });
         return viewHolder;
+    }
+
+    private void editTransactionItem(ViewHolder viewHolder) {
+        Object item = mData.get(viewHolder.getPosition()).getDbObject();
+        if (item instanceof KhoanThu) {
+            EditKhoanThuDialog dialog = EditKhoanThuDialog.newInstance(((KhoanThu) item).getTenGiaoDich(), caller);
+            dialog.show(fm, EditBalanceDialog.TAG);
+        } else if (item instanceof KhoanChi) {
+            EditKhoanChiDialog dialog = EditKhoanChiDialog.newInstance(((KhoanChi) item).getTenGiaoDich(), caller);
+            dialog.show(fm, EditBalanceDialog.TAG);
+        } else if (item instanceof KhoanVay) {
+            EditKhoanVayDialog dialog = EditKhoanVayDialog.newInstance(((KhoanVay) item).getTenGiaoDich(), caller);
+            dialog.show(fm, EditBalanceDialog.TAG);
+        } else if (item instanceof KhoanChoVay) {
+            EditKhoanChoVayDialog dialog = EditKhoanChoVayDialog.newInstance(((KhoanChoVay) item).getTenGiaoDich(), caller);
+            dialog.show(fm, EditBalanceDialog.TAG);
+        }
     }
 
     @Override

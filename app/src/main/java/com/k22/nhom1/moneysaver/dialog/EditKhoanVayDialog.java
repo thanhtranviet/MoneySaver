@@ -123,7 +123,7 @@ public class EditKhoanVayDialog extends DialogFragment {
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        txt_transaction_date.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
+                        txt_transaction_date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -137,7 +137,7 @@ public class EditKhoanVayDialog extends DialogFragment {
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        txt_transaction_return_date.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
+                        txt_transaction_return_date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));

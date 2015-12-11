@@ -45,10 +45,10 @@ public class CategoryFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new CategoryIncomeFragment(), "Income");
-        adapter.addFragment(new CategoryExpenseFragment(), "Expense");
-        adapter.addFragment(new CategoryIncomeRecuringFragment(), "Recurring Income");
-        adapter.addFragment(new CategoryExpenseRecurringFragment(), "Recurring Expense");
+        adapter.addFragment(new CategoryIncomeFragment(), getActivity().getString(R.string.income));
+        adapter.addFragment(new CategoryExpenseFragment(), getActivity().getString(R.string.expense));
+        adapter.addFragment(new CategoryIncomeRecuringFragment(), getActivity().getString(R.string.income_recurring));
+        adapter.addFragment(new CategoryExpenseRecurringFragment(), getActivity().getString(R.string.expense_recurring));
         viewPager.setAdapter(adapter);
     }
 }

@@ -57,4 +57,10 @@
     <string name="edit_transaction_loan">Edit loan transaction</string>
     <string name="new_transaction_loan">New loan transaction</string>
     <string name="partner">Partner</string>
+    <string name="week_report">Transaction in last week</string>
+    <string name="week_transaction">Last week transaction</string>
+    <string name="transaction">Transaction</string>
+    <string name="logout">Logout</string>
+    <string name="income_recurring">Recurring Income</string>
+    <string name="expense_recurring">Recurring expense</string>
 </resources>

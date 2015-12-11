@@ -123,12 +123,12 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     public List<NavigationItem> getMenu() {
         List<NavigationItem> items = new ArrayList<NavigationItem>();
-        items.add(new NavigationItem("Transaction", getResources().getDrawable(R.drawable.ic_credit_card_black_24dp)));
-        items.add(new NavigationItem("Report", getResources().getDrawable(R.drawable.ic_insert_chart_black_24dp)));
-        items.add(new NavigationItem("Category", getResources().getDrawable(R.drawable.ic_folder_special_black_24dp)));
-        items.add(new NavigationItem("Account Balance", getResources().getDrawable(R.drawable.ic_account_balance_black_24dp)));
-        items.add(new NavigationItem("Expense Limit", getResources().getDrawable(R.drawable.ic_traffic_black_24dp)));
-        items.add(new NavigationItem("Logout", getResources().getDrawable(R.drawable.ic_settings_black_24dp)));
+        items.add(new NavigationItem(getActivity().getString(R.string.transaction), getResources().getDrawable(R.drawable.ic_credit_card_black_24dp)));
+        items.add(new NavigationItem(getActivity().getString(R.string.report), getResources().getDrawable(R.drawable.ic_insert_chart_black_24dp)));
+        items.add(new NavigationItem(getActivity().getString(R.string.category), getResources().getDrawable(R.drawable.ic_folder_special_black_24dp)));
+        items.add(new NavigationItem(getActivity().getString(R.string.balance), getResources().getDrawable(R.drawable.ic_account_balance_black_24dp)));
+        items.add(new NavigationItem(getActivity().getString(R.string.limit), getResources().getDrawable(R.drawable.ic_traffic_black_24dp)));
+        items.add(new NavigationItem(getActivity().getString(R.string.logout), getResources().getDrawable(R.drawable.ic_settings_black_24dp)));
         return items;
     }
 

@@ -94,7 +94,7 @@ public class EditCategoryExpenseRecurringDialog extends DialogFragment {
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        txtFromDate.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
+                        txtFromDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -108,7 +108,7 @@ public class EditCategoryExpenseRecurringDialog extends DialogFragment {
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        txtToDate.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
+                        txtToDate.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
                     }
 
                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));

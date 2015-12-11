@@ -1,149 +1,137 @@
 package com.k22.nhom1.moneysaver.fragment;
 
-import android.graphics.Typeface;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.ChartData;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.k22.nhom1.moneysaver.R;
-import com.k22.nhom1.moneysaver.model.MyMarkerView;
+import com.k22.nhom1.moneysaver.database.DB4OProvider;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by thanh on 07/12/2015.
  */
-public class ReportFragment extends Fragment implements OnChartGestureListener {
+public class ReportFragment extends Fragment {
     public static final String TAG = "REPORT_FRAGMENT_TAG";
-    private Typeface tf;
+    DB4OProvider db;
+    Context mContext;
 
-    public static Fragment newInstance() {
-        return new ReportFragment();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = getActivity().getApplicationContext();
+        try {
+            db = new OpenDBTask(mContext).execute(null, null, null).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
-
-    private BarChart mChart;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_report, container, false);
 
         // create a new chart object
-        mChart = new BarChart(getActivity());
-        mChart.setDescription("");
-        mChart.setOnChartGestureListener(this);
-
-        MyMarkerView mv = new MyMarkerView(getActivity(), R.layout.custom_marker_view);
-
-        mChart.setMarkerView(mv);
-
-        mChart.setDrawGridBackground(false);
-        mChart.setDrawBarShadow(false);
-
-        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Light.ttf");
-
-        mChart.setData(generateBarData(1, 20000, 12));
-
-        Legend l = mChart.getLegend();
-        l.setTypeface(tf);
-
-        YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setTypeface(tf);
-
-        mChart.getAxisRight().setEnabled(false);
-
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setEnabled(false);
-
-        // programatically add the chart
-        FrameLayout parent = (FrameLayout) v.findViewById(R.id.parentLayout);
-        parent.addView(mChart);
+        BarChart chart = (BarChart) v.findViewById(R.id.chart);
+        ArrayList<String> xAxis = getXAxisValues();
+        BarData data = new BarData(xAxis, getDataSet(xAxis));
+        chart.setData(data);
+        chart.setDescription(mContext.getString(R.string.week_transaction));
+        chart.animateXY(2000, 2000);
+        chart.invalidate();
 
         return v;
     }
 
-    protected BarData generateBarData(int dataSets, float range, int count) {
-        tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
-        ArrayList<BarDataSet> sets = new ArrayList<BarDataSet>();
+    private ArrayList<BarDataSet> getDataSet(ArrayList<String> xAxis) {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
+        ArrayList<BarDataSet> dataSets = null;
 
-        for (int i = 0; i < dataSets; i++) {
+        ArrayList<BarEntry> khoanthu = new ArrayList<>();
+        ArrayList<BarEntry> khoanchi = new ArrayList<>();
+        ArrayList<BarEntry> khoanvay = new ArrayList<>();
+        ArrayList<BarEntry> khoanchovay = new ArrayList<>();
 
-            ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+        int idx = 0;
 
-            for (int j = 0; j < count; j++) {
-                entries.add(new BarEntry((float) (Math.random() * range) + range / 4, j));
+        for (String dateString : xAxis) {
+            try {
+                Date date = format.parse(dateString);
+                khoanthu.add(new BarEntry(db.calculateKhoanThu(date), idx));
+                khoanchi.add(new BarEntry(db.calculateKhoanChi(date), idx));
+                khoanvay.add(new BarEntry(db.calculateKhoanVay(date), idx));
+                khoanchovay.add(new BarEntry(db.calculateKhoanChoVay(date), idx));
+                idx++;
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-
-            BarDataSet ds = new BarDataSet(entries, getLabel(i));
-            ds.setColors(ColorTemplate.VORDIPLOM_COLORS);
-            sets.add(ds);
         }
 
-        BarData d = new BarData(ChartData.generateXVals(0, count), sets);
-        d.setValueTypeface(tf);
-        return d;
+
+        BarDataSet barDataSet1 = new BarDataSet(khoanthu, getString(R.string.income));
+        barDataSet1.setColor(Color.GREEN);
+        BarDataSet barDataSet2 = new BarDataSet(khoanchi, getString(R.string.expense));
+        barDataSet2.setColor(Color.YELLOW);
+        BarDataSet barDataSet3 = new BarDataSet(khoanvay, getString(R.string.borrow));
+        barDataSet3.setColor(Color.RED);
+        BarDataSet barDataSet4 = new BarDataSet(khoanchovay, getString(R.string.loan));
+        barDataSet4.setColor(Color.BLUE);
+
+        dataSets = new ArrayList<>();
+        dataSets.add(barDataSet1);
+        dataSets.add(barDataSet2);
+        dataSets.add(barDataSet3);
+        dataSets.add(barDataSet4);
+        return dataSets;
     }
 
-    private String[] mLabels = new String[]{"Company A", "Company B", "Company C", "Company D", "Company E", "Company F"};
-
-    private String getLabel(int i) {
-        return mLabels[i];
+    private ArrayList<String> getXAxisValues() {
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yy");
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, -6);
+        ArrayList<String> xAxis = new ArrayList<>();
+        for (int x = 1; x <= 7; x++) {
+            xAxis.add(format.format(cal.getTime()));
+            cal.add(Calendar.DATE, 1);
+        }
+        /*
+        xAxis.add("JAN");
+        xAxis.add("FEB");
+        xAxis.add("MAR");
+        xAxis.add("APR");
+        xAxis.add("MAY");
+        xAxis.add("JUN");
+        */
+        return xAxis;
     }
 
-    @Override
-    public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-        Log.i("Gesture", "START");
-    }
+    public class OpenDBTask extends AsyncTask<Void, Void, DB4OProvider> {
+        public OpenDBTask(Context mContext) {
+        }
 
-    @Override
-    public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-        Log.i("Gesture", "END");
-        mChart.highlightValues(null);
+        @Override
+        protected DB4OProvider doInBackground(Void... voids) {
+            DB4OProvider db = DB4OProvider.getInstance(mContext);
+            db.db();
+            return db;
+        }
     }
-
-    @Override
-    public void onChartLongPressed(MotionEvent me) {
-        Log.i("LongPress", "Chart longpressed.");
-    }
-
-    @Override
-    public void onChartDoubleTapped(MotionEvent me) {
-        Log.i("DoubleTap", "Chart double-tapped.");
-    }
-
-    @Override
-    public void onChartSingleTapped(MotionEvent me) {
-        Log.i("SingleTap", "Chart single-tapped.");
-    }
-
-    @Override
-    public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-        Log.i("Fling", "Chart flinged. VeloX: " + velocityX + ", VeloY: " + velocityY);
-    }
-
-    @Override
-    public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-        Log.i("Scale / Zoom", "ScaleX: " + scaleX + ", ScaleY: " + scaleY);
-    }
-
-    @Override
-    public void onChartTranslate(MotionEvent me, float dX, float dY) {
-        Log.i("Translate / Move", "dX: " + dX + ", dY: " + dY);
-    }
-
-    }
+}

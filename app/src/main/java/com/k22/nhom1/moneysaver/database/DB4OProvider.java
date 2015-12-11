@@ -25,6 +25,7 @@ import com.k22.nhom1.moneysaver.database.domain.TrangThai;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class DB4OProvider extends Db4oHelper {
@@ -85,7 +86,7 @@ public class DB4OProvider extends Db4oHelper {
         chianuong.setSoTien(200000);
         chianuong.setTenGiaoDich("Dinner at restaurant");
         try {
-            chianuong.setNgayGiaoDich(formatter.parse("1/12/2015"));
+            chianuong.setNgayGiaoDich(formatter.parse("5/12/2015"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -99,7 +100,7 @@ public class DB4OProvider extends Db4oHelper {
         chianuong1.setSoTien(300000);
         chianuong1.setTenGiaoDich("Attend wedding party");
         try {
-            chianuong1.setNgayGiaoDich(formatter.parse("3/12/2015"));
+            chianuong1.setNgayGiaoDich(formatter.parse("6/12/2015"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -113,7 +114,7 @@ public class DB4OProvider extends Db4oHelper {
         chiShopping.setSoTien(500000);
         chiShopping.setTenGiaoDich("Buy new T-Shirt");
         try {
-            chiShopping.setNgayGiaoDich(formatter.parse("2/12/2015"));
+            chiShopping.setNgayGiaoDich(formatter.parse("7/12/2015"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -127,7 +128,7 @@ public class DB4OProvider extends Db4oHelper {
         chiHousebill.setSoTien(hangMucChiDinhKy.getSoTien());
         chiHousebill.setTenGiaoDich("Pay monthly bill for December");
         try {
-            chiHousebill.setNgayGiaoDich(formatter.parse("2/12/2015"));
+            chiHousebill.setNgayGiaoDich(formatter.parse("8/12/2015"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -141,7 +142,7 @@ public class DB4OProvider extends Db4oHelper {
         thuExtra.setTenGiaoDich("Extra payment income");
         thuExtra.setSoTien(550000);
         try {
-            thuExtra.setNgayGiaoDich(formatter.parse("1/12/2015"));
+            thuExtra.setNgayGiaoDich(formatter.parse("7/12/2015"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -155,7 +156,7 @@ public class DB4OProvider extends Db4oHelper {
         thuOvertime.setTenGiaoDich("Overtime payment income");
         thuOvertime.setSoTien(550000);
         try {
-            thuOvertime.setNgayGiaoDich(formatter.parse("2/12/2015"));
+            thuOvertime.setNgayGiaoDich(formatter.parse("8/12/2015"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -169,7 +170,7 @@ public class DB4OProvider extends Db4oHelper {
         thuSalary.setTenGiaoDich("Monthly Salary");
         thuSalary.setSoTien(hangMucThuDinhKy.getSoTien());
         try {
-            thuSalary.setNgayGiaoDich(formatter.parse("3/12/2015"));
+            thuSalary.setNgayGiaoDich(formatter.parse("8/12/2015"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -183,7 +184,7 @@ public class DB4OProvider extends Db4oHelper {
         khoanVay.setChuNo("Mr Bean");
         try {
             khoanVay.setNgayDuKienTra(formatter.parse("1/3/2016"));
-            khoanVay.setNgayGiaoDich(formatter.parse("1/12/2015"));
+            khoanVay.setNgayGiaoDich(formatter.parse("6/12/2015"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -211,7 +212,6 @@ public class DB4OProvider extends Db4oHelper {
         db().store(khoanVay);
     }
 
-    //This method is used to store the object into the database.
     public void store(NguoiDung nguoiDung) {
         db().store(nguoiDung);
     }
@@ -226,44 +226,6 @@ public class DB4OProvider extends Db4oHelper {
 
     public List<TaiKhoan> findAllTaiKhoan() {
         return db().queryByExample(TaiKhoan.class);
-    }
-
-    public void store(KhoanVay khoanVay) {
-        db().store(khoanVay);
-        KhoanThu thu = new KhoanThu();
-        thu.setTaiKhoan(khoanVay.getTaiKhoan());
-        thu.setNgayGiaoDich(khoanVay.getNgayGiaoDich());
-        thu.setTenGiaoDich(khoanVay.getTenGiaoDich());
-        thu.setGhiChu(khoanVay.getGhiChu());
-        thu.setSoTien(khoanVay.getSoTien());
-        db().store(thu);
-
-        ObjectSet query = db().queryByExample(khoanVay.getTaiKhoan());
-        if (query.hasNext()) {
-            TaiKhoan tk = (TaiKhoan) query.next();
-            tk.addKhoanThu(thu);
-            tk.addKhoanVay(khoanVay);
-            db().store(tk);
-        }
-    }
-
-    public void store(KhoanChoVay khoanChoVay) {
-        db().store(khoanChoVay);
-        KhoanChi chi = new KhoanChi();
-        chi.setTaiKhoan(khoanChoVay.getTaiKhoan());
-        chi.setNgayGiaoDich(khoanChoVay.getNgayGiaoDich());
-        chi.setTenGiaoDich(khoanChoVay.getTenGiaoDich());
-        chi.setGhiChu(khoanChoVay.getGhiChu());
-        chi.setSoTien(khoanChoVay.getSoTien());
-        db().store(chi);
-
-        ObjectSet query = db().queryByExample(khoanChoVay.getTaiKhoan());
-        if (query.hasNext()) {
-            TaiKhoan tk = (TaiKhoan) query.next();
-            tk.addKhoanChi(chi);
-            tk.addKhoanChoVay(khoanChoVay);
-            db().store(tk);
-        }
     }
 
     public TaiKhoan getTaiKhoan(String mBalanceName) {
@@ -440,6 +402,58 @@ public class DB4OProvider extends Db4oHelper {
             return query.next();
         }
         return null;
+    }
+
+    public Integer calculateKhoanThu(final Date date) {
+        Integer tong = 0;
+        ObjectSet<KhoanThu> query = db().query(new Predicate<KhoanThu>() {
+            public boolean match(KhoanThu candidate) {
+                return candidate.getNgayGiaoDich().equals(date);
+            }
+        });
+        if (query.hasNext()) {
+            tong += query.next().getSoTien();
+        }
+        return tong;
+    }
+
+    public Integer calculateKhoanChi(final Date date) {
+        Integer tong = 0;
+        ObjectSet<KhoanChi> query = db().query(new Predicate<KhoanChi>() {
+            public boolean match(KhoanChi candidate) {
+                return candidate.getNgayGiaoDich().equals(date);
+            }
+        });
+        if (query.hasNext()) {
+            tong += query.next().getSoTien();
+        }
+        return tong;
+    }
+
+    public Integer calculateKhoanVay(final Date date) {
+        Integer tong = 0;
+        ObjectSet<KhoanVay> query = db().query(new Predicate<KhoanVay>() {
+            public boolean match(KhoanVay candidate) {
+                return candidate.getNgayGiaoDich().equals(date);
+            }
+        });
+        if (query.hasNext()) {
+            tong += query.next().getSoTien();
+        }
+        return tong;
+    }
+
+    public Integer calculateKhoanChoVay(final Date date) {
+        Integer tong = 0;
+        ObjectSet<KhoanChoVay> query = db().query(new Predicate<KhoanChoVay>() {
+            public boolean match(KhoanChoVay candidate) {
+                return candidate.getNgayGiaoDich().equals(date);
+            }
+        });
+        if (query.hasNext()) {
+            tong += query.next().getSoTien();
+        }
+        return tong;
     }
 
     public void addKhoanThu(KhoanThu giaodich) {
