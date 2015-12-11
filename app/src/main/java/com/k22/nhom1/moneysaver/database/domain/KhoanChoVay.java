@@ -67,4 +67,10 @@ public class KhoanChoVay extends GiaoDich {
     public void setHangMucChi(HangMucChi hangMucChi) {
         this.hangMucChi = hangMucChi;
     }
+
+    public boolean validateKhoanChoVay(Integer amount) {
+        return amount > 0
+                && ((hangMucChi != null && hangMucChi.checkLimit(amount)))
+                && taiKhoan.getSoDuHienTai() > amount;
+    }
 }

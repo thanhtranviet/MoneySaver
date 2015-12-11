@@ -41,4 +41,14 @@ public class HangMucChi extends HangMuc {
         if (cacKhoanChi == null) cacKhoanChi = new HashSet<>();
         return this.cacKhoanChi.add(khoanChi);
     }
+
+    public boolean checkLimit(Integer amount) {
+        if (cacKhoanChi == null) cacKhoanChi = new HashSet<>();
+        Integer sotienDachi = 0;
+        for (KhoanChi kc : cacKhoanChi) {
+            sotienDachi += kc.getSoTien();
+        }
+
+        return (dinhMucChi - sotienDachi) > amount;
+    }
 }

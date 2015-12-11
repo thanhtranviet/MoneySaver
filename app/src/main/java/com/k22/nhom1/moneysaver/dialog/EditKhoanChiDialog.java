@@ -140,6 +140,8 @@ public class EditKhoanChiDialog extends DialogFragment {
                         giaodich.setHangMucChi(db.getHangMucChi(String.valueOf(spn_transaction_category.getSpinner().getSelectedItem())));
 
                         ((ExpenseTabFragment) _caller).onFinishAdd(giaodich);
+                        setCancelable(true);
+
                     }
                 }
         )

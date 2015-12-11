@@ -38,4 +38,14 @@ public class KhoanChi extends GiaoDich {
     public void setHangMucChiDinhKy(HangMucChiDinhKy hangMucChiDinhKy) {
         this.hangMucChiDinhKy = hangMucChiDinhKy;
     }
+
+    public boolean validateKhoanChi(Integer amount) {
+        return amount > 0
+                && (
+                (hangMucChi != null && hangMucChi.checkLimit(amount))
+                        || (hangMucChiDinhKy != null && hangMucChiDinhKy.checkLimit(amount))
+        )
+                && taiKhoan.getSoDuHienTai() > amount;
+
+    }
 }
